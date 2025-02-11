@@ -42,13 +42,13 @@ class VideoFeedProvider:
 
         for detection in detections:
             x1, y1, x2, y2, score = detection
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 8)
 
             cropped = frame[y1:y2, x1:x2, :]
             ocr = self._ocr_strategy.get_text(cropped)
             if ocr is None:
                 continue
 
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 8)
             cv2.putText(frame, "License Number: {}".format(ocr), (x1, y1 - 25),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
 
