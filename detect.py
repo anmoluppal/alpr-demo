@@ -329,16 +329,12 @@ class LicensePlateDetectorOpenCvGeeksForGeeks(LicensePlateDetector):
 
 class LicensePlateDetectorYolo(LicensePlateDetector):
     # From: https://github.com/Muhammad-Zeerak-Khan/Automatic-License-Plate-Recognition-using-YOLOv8/blob/main/main.py
-    def __init__(self, coco_model, license_plate_detector):
-        self._coco_model = coco_model
+    def __init__(self, license_plate_detector):
         self._license_plate_detector = license_plate_detector
 
     def get_licence_place_numbers(self, frame) -> List[str]:
-        detections = self._coco_model(frame)[0]
-        detections_ = []
-
         license_plates = self._license_plate_detector(frame)[0]
         for license_plate in license_plates.boxes.data.tolist():
             x1, y1, x2, y2, score, class_id = license_plate
-            print("car found")
+            print("number plate found: score: {}".format(score))
         
