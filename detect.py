@@ -338,7 +338,6 @@ class LicensePlateDetectorYolo(LicensePlateDetector):
         for license_plate in license_plates.boxes.data.tolist():
             x1, y1, x2, y2, score, class_id = license_plate
             
-            zz = frame[int(y1):int(y2), int(x1):int(x2), :]
-            detections.append((score, zz))
+            detections.append((int(x1), int(y1), int(x2), int(y2), score))
         return detections
         
