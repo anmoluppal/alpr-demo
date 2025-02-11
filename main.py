@@ -4,28 +4,34 @@ from ultralytics import YOLO
 
 from camera_feed import VideoFeedProvider
 from detect import LicensePlateDetectorOpenCvGeeksForGeeks, LicensePlateDetectorYolo
-from ocr import OCR
+from ocr import OCR, EasyOcrStrategy
 
 
 def main():
-    video_feed_provider = VideoFeedProvider(Path("/home/anmol/Downloads/fauji_gaadi.jpeg"))
+    video_feed_provider = VideoFeedProvider(
+        Path("/home/anmol/Downloads/fauji_gaadi.jpeg"))
+    ocr_strategy = EasyOcrStrategy()
     # license_plate_detector = LicensePlateDetectorOpenCvGeeksForGeeks(4100, 15000)
     # model = OCR(modelFile="./assets/binary_128_0.50_ver3.pb",
     #             labelFile="./assets/binary_128_0.50_labels_ver2.txt")
-    
+
     license_plate_detector = YOLO('./assets/license_plate_detector.pt')
     license_plate_detector_2 = LicensePlateDetectorYolo(license_plate_detector)
 
     while video_feed_provider.has_next_frame():
         frame = video_feed_provider.get_frame()
 
-        license_numbers = license_plate_detector_2.get_licence_place_numbers(frame)
+        detections = license_plate_detector_2.get_licence_place_numbers(frame)
 
-        if license_numbers is None:
+        if detections is None:
             continue
 
-        if len(license_numbers) == 0:
+        if len(detections) == 0:
             continue
+        
+        for detection in detections:
+            ocr = ocr_strategy.get_text(detection[1])
+            print("Detected vehicle number: {}, confidence: {}".format(ocr, detection[0]))
 
         # for i, p in enumerate(license_numbers):
         #     chars_on_plate = license_plate_detector.char_on_plate[i]

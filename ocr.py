@@ -1,6 +1,29 @@
+from abc import ABC, abstractmethod
+
 import cv2
 import numpy as np
 import tensorflow as tf
+import easyocr
+
+
+class IOcr(ABC):
+    @abstractmethod
+    def get_text(self, crop_img) -> str:
+        pass
+
+
+class EasyOcrStrategy(IOcr):
+    def __init__(self):
+        self._reader = easyocr.Reader(['en'], gpu=False)
+
+    def get_text(self, crop_img) -> str:
+        detections = self._reader.readtext(crop_img)
+        for detection in detections:
+            bbox, text, score = detection
+
+            text = text.upper().replace(' ', '')
+
+            return text
 
 
 class OCR:

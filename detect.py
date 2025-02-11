@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Tuple
 
 import imutils
 import numpy as np
@@ -332,9 +332,13 @@ class LicensePlateDetectorYolo(LicensePlateDetector):
     def __init__(self, license_plate_detector):
         self._license_plate_detector = license_plate_detector
 
-    def get_licence_place_numbers(self, frame) -> List[str]:
+    def get_licence_place_numbers(self, frame) -> List[Tuple]:
         license_plates = self._license_plate_detector(frame)[0]
+        detections = []
         for license_plate in license_plates.boxes.data.tolist():
             x1, y1, x2, y2, score, class_id = license_plate
-            print("number plate found: score: {}".format(score))
+            
+            zz = frame[int(y1):int(y2), int(x1):int(x2), :]
+            detections.append((score, zz))
+        return detections
         
