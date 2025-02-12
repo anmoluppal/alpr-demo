@@ -42,7 +42,7 @@ class DynamicImagePlayer(QWidget):
 
         self.setLayout(main_layout)
 
-        self.setGeometry(100, 100, 1200, 800)
+        self.setGeometry(100, 100, 1000, 600)
 
     def update_frame(self):
         frame, ocr = self.generate_image_function()  # Call the image generation function
