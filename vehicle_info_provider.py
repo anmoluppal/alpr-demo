@@ -19,6 +19,7 @@ class VehicleInfoProvider:
             for row in csv_reader:
 
                 self._self_vehicle_details[row["vehicle_number"]] = {
+                    "vehicle_number": row["vehicle_number"],
                     "driver_name": row["driver_name"],
                     "make_and_type": row["make_and_type"],
                     "unit": row["unit"],
