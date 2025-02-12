@@ -56,8 +56,8 @@ class VideoFeedProvider:
             ocr_new = self.transform_vehicle_number(ocr_new)
 
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 8)
-            cv2.putText(frame, "License Number: {}".format(ocr_new), (x1, y1 - 25),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+            # cv2.putText(frame, "License Number: {}".format(ocr_new), (x1, y1 - 25),
+            #             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
             
             return ocr_new
 
